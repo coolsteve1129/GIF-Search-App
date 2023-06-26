@@ -16,23 +16,40 @@
   const img = document.querySelector('img')
   const searchBtn = document.getElementById("searchButton")
   
-  searchBtn.addEventListener("click", function(event) {
-  const userInput = document.getElementById("userInput").value
-    fetch(`https://api.giphy.com/v1/gifs/translate?api_key=D4KJw8Uk8kmUIK1D78x0t7hAlYCpfF7c&s=${userInput}`, {mode: 'cors'})
-    .then(function(response) {
-      return response.json();
-    })
-    .then(function(response) {
-        img.src = response.data.images.original.url;
-    });
+  searchBtn.addEventListener("click", function(event) {  
+    const userInput = document.getElementById("userInput").value
+    
+    searchGIF(userInput)
   });
-  fetch(`https://api.giphy.com/v1/gifs/translate?api_key=D4KJw8Uk8kmUIK1D78x0t7hAlYCpfF7c&s=Search Something`, {mode: 'cors'})
-    .then(function(response) {
-      return response.json();
-    })
-    .then(function(response) {
-        img.src = response.data.images.original.url;
-    });
+  // fetch(`https://api.giphy.com/v1/gifs/translate?api_key=D4KJw8Uk8kmUIK1D78x0t7hAlYCpfF7c&s=Search Something`, {mode: 'cors'})
+  //   .then(function(response) {
+  //     return response.json();
+  //   })
+  //   .then(function(response) {
+  //       img.src = response.data.images.original.url;
+  //   })
+  //   .catch(function(response){
+  //     alert("Could not find a GIF")
+  //   });
+  //samething but as a promise^^
+
+  async function searchGIF(userInput) {
+    
+    try{
+      if(userInput === undefined){
+          userInput = "Search";
+        }
+    const response = await fetch(`https://api.giphy.com/v1/gifs/translate?api_key=D4KJw8Uk8kmUIK1D78x0t7hAlYCpfF7c&s=${userInput}`, {mode: 'cors'});
+    
+    const searchedImg = await response.json()
+    img.src = searchedImg.data.images.original.url;
+  }  
+  catch (error){
+    alert("There was no picture returned. Error: "+error)
+  }
+}
+  searchGIF()
+
 </script>
 </body>
 </html>
