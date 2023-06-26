@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="container">
+  <h1>Search for a GIF!!!</h1>
+  <img src="#"><br>
+  <input type="text" id="userInput"></input><br>
+  <button id="searchButton">Search</button>
+  </div>
+  <script>
+  const img = document.querySelector('img')
+  const searchBtn = document.getElementById("searchButton")
+  
+  searchBtn.addEventListener("click", function(event) {
+  const userInput = document.getElementById("userInput").value
+    fetch(`https://api.giphy.com/v1/gifs/translate?api_key=D4KJw8Uk8kmUIK1D78x0t7hAlYCpfF7c&s=${userInput}`, {mode: 'cors'})
+    .then(function(response) {
+      return response.json();
+    })
+    .then(function(response) {
+        img.src = response.data.images.original.url;
+    });
+  });
+  fetch(`https://api.giphy.com/v1/gifs/translate?api_key=D4KJw8Uk8kmUIK1D78x0t7hAlYCpfF7c&s=Search Something`, {mode: 'cors'})
+    .then(function(response) {
+      return response.json();
+    })
+    .then(function(response) {
+        img.src = response.data.images.original.url;
+    });
+</script>
+</body>
+</html>
